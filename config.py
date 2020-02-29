@@ -1,8 +1,8 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-class config:
- 
+class Config:
+    SECRET_KEY = "ssss"
     SSL_REDIRECT = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_RECORD_QUERIES = True
@@ -15,16 +15,30 @@ class config:
     def init_app(app):
         pass
 
-    class DevelopmentConfig(Config):
-        DEBUG = True
-        SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-        'mysql://' + os.environ.get('USERNAME') + ':' + os.environ.get('PASSWORD') + \
-        '@localhost:3306' + '/' + 'development'
+class DevelopmentConfig(Config):
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
+        'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
 
-    config = {
+
+class TestingConfig(Config):
+    TEST = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
+        'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
+
+
+
+class ProductionConfig(Config):
+    TEST = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
+        'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
+
+
+
+config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
     'production': ProductionConfig,
 
     'default': DevelopmentConfig
-    }
+}

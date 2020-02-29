@@ -1,15 +1,20 @@
 from flask import request, render_template, session, redirect, url_for, flash
-from .templates import main
-from .models import User
-from flask_login import LoginManager, login_required, logout_user
+from . import main
+from ..models import User, Post
+from flask_login import LoginManager, login_required, logout_user, current_user
 # from flask_mail import 
 # from flask_wtf import
 # from Bootstrap-Flask import
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
-    
-    return render_template("index.html")
+    form = PostForm()
+	post = Post(body=form.Body.data, author=current_user._get_current_object())
+	db.session.add(post)
+	db.session.commit()
+	posts = Post.query.order_by(Post.timestamp.desc()).all()
+
+    return render_template("index.html", form=form, posts=posts)
 
 @main.route('/login', methods=['GET', 'POST'])
 def login():
@@ -40,6 +45,6 @@ def check(username, password):
 def logout():
     logout_user()
     flash('logout success')
-    return redirect(url_for('index'))
+    return redirect(url_for('.index'))
 
 
