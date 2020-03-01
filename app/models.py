@@ -2,6 +2,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 # from flask_sqlalchemy import 
 from . import db
 from flask_login import UserMixin
+from flask_moment import datetime
 
 class User(db.Model, UserMixin):
     __tablename__ = 'Users'
@@ -33,10 +34,8 @@ class Post(db.Model):
     __tablename__ = 'post'
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.Text)
-    timestamp = db.Column(db.Datetime, index=True, default=datetime.utcnow)
-    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-
-    def __init__(self, body, author):
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow())
+    author_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
 
 
 

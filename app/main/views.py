@@ -3,16 +3,18 @@ from . import main
 from ..models import User, Post
 from flask_login import LoginManager, login_required, logout_user, current_user
 # from flask_mail import 
-# from flask_wtf import
+from .forms import PostForm
 # from Bootstrap-Flask import
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
     form = PostForm()
-	post = Post(body=form.Body.data, author=current_user._get_current_object())
-	db.session.add(post)
-	db.session.commit()
-	posts = Post.query.order_by(Post.timestamp.desc()).all()
+
+    if current_user.is_active and current_user.is_authenticated:
+        post = Post(body=form.body.data, author=current_user._get_current_object())
+        db.session.add(post)
+        db.session.commit()
+    posts = Post.query.order_by(Post.timestamp.desc()).all()
 
     return render_template("index.html", form=form, posts=posts)
 
@@ -46,5 +48,4 @@ def logout():
     logout_user()
     flash('logout success')
     return redirect(url_for('.index'))
-
 

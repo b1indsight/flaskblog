@@ -13,7 +13,7 @@ if os.environ.get('TEST_COVERAGE'):
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 
-@app.make_shell_context()
+@app.shell_context_processor
 def make_shell_context():
     return dict(db=db, User=User)
 
@@ -64,6 +64,5 @@ def test(coverage, test_names):
         COV.erase()
 
 """
-    *TODO 链接数据库， 展示blog及编辑器
 
 """

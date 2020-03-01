@@ -1,0 +1,20 @@
+{% from 'bootstrap/form.html' import render_form %}
+
+<head>
+    "blog"
+</head>
+
+{% block page_Content %}
+    {{ render_form(form) }}
+    {{ pagedown.include_pagedown() }}
+    {% if current_user.is_auththenticated %}
+        <button type="button" herf="{{ url_for('.logout') }}" class="btn">logout</button>
+    {% else %}
+    <button type="button" herf="{{ url_for('.login') }}" class="btn">login</button>
+    {% endif %}
+{% endblock  %}
+
+
+{% block scripts %}
+
+{% endblock %}
