@@ -17,7 +17,7 @@ app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 def make_shell_context():
     return dict(db=db, User=User)
 
-app.run()
+# app.run()
 
 @app.cli.command()
 @click.option('--username', prompt=True, help="username used to login")
@@ -31,11 +31,10 @@ def admin(username, password):
     if user:
         click.echo('update')
         user.username = username
-        user.password(password)
+        user.verify_password(password)
     else:
         click.echo('create admin')
-        user = User(username=username, id=1)
-        user.password(password)
+        user = User(username=username, password=password)
         db.session.add(user)
     
     db.session.commit()
@@ -47,7 +46,7 @@ def admin(username, password):
 @click.argument('test_names', nargs=-1)
 def test(coverage, test_names):
     import unittest
-    if test_names:
+    if test_names is None:
         tests = unittest.TestLoader().loadTestsFromNames(test_names)
     else:
         tests = unittest.TestLoader().discover('tests')

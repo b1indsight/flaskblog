@@ -19,7 +19,19 @@ class BlogTestCase(unittest.TestCase):
         self.assertIsNone(app)
 
     def test_login():
-        respose = self.client.get('/login')
+        self.client.post('/login', data=dict(
+            username='123', 
+            password='123'), follow.redirects=TRUE)
         data = respose.get_data(as_text=True)
-        self.assertIN('', data)
+        self.assertIN('success', data)
 
+    def test_logout():
+        respose = self.client.get('/logout')
+        data = respose.get_data(as_text=True)
+        self.assertIN('index.html',data)
+
+    def test_404():
+        respose = self.client.get('/nothing')
+        data = respose.get_data(as_text=True)
+        self.assertIN('get 404',data)
+        self.assertIN('Page not found',data)

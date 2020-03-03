@@ -8,9 +8,9 @@
     {{ render_form(form) }}
     {{ pagedown.include_pagedown() }}
     {% if current_user.is_auththenticated %}
-        <button type="button" herf="{{ url_for('.logout') }}" class="btn">logout</button>
+        <button type="button" herf="{{ url_for('main.logout') }}" class="btn">logout</button>
     {% else %}
-    <button type="button" herf="{{ url_for('.login') }}" class="btn">login</button>
+        <button type="button" herf="{{ url_for('main.login') }}" class="btn">login</button>
     {% endif %}
 {% endblock  %}
 
