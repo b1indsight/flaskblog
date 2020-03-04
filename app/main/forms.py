@@ -6,3 +6,7 @@ from flask_wtf import FlaskForm
 class PostForm(FlaskForm):
     body = PageDownField("write here", validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+class CommentForm(FlaskForm):
+    body = PageDownField("write comment here", validators=[DataRequired()])
+    submit = SubmitField('Submit')

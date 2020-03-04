@@ -45,12 +45,12 @@ def admin(username, password):
                 help='Run unittest')
 @click.argument('test_names', nargs=-1)
 def test(coverage, test_names):
-    import unittest
+    import unittest, tests
     if test_names is None:
         tests = unittest.TestLoader().loadTestsFromNames(test_names)
     else:
         tests = unittest.TestLoader().discover('tests')
-
+    unittest.TextTestRunner(verbosity=2).run(tests)
     if COV:
         COV.stop()
         COV.save()
