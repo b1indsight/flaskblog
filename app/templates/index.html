@@ -1,9 +1,10 @@
+{% extends 'base.html' %}
 {% from 'bootstrap/form.html' import render_form %}
 
 <head>
-    "blog"
+    blog
 </head>
-
+{% block content %}
 {% block page_Content %}
     {{ render_form(form) }}
     {{ pagedown.include_pagedown() }}
@@ -12,8 +13,9 @@
     {% else %}
         <button type="button" herf="{{ url_for('main.login') }}" class="btn">login</button>
     {% endif %}
-{% endblock  %}
-
+    
+{% endblock %}
+{% endblock %}
 
 {% block scripts %}
 

@@ -1,0 +1,21 @@
+<html>
+    <head>
+        {% block head %}
+            <meta charset="utf-8">
+            <title>{% block title %}FLASK BLOG{% endblock %}</title>
+        {% endblock %}
+    </head> 
+<body>
+<nav>
+    <ui><li><a href="{{url_for('main.index')}}">HOME</a></li></ui>
+</nav>
+<main>
+    {% block content %}{% endblock %}
+</main>
+<footer>
+    {% block footer %}
+    {% endblock %}
+</footer>
+    {% block script %}{% endblock %}
+</body>
+</html>

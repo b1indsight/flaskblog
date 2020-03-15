@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+
 {%block content %}
 <h3>Login</h3>
 <form method="post">
@@ -8,4 +10,7 @@
     <input class="btn" type="submit" name="submit" value="Submit">
 </form>
     <a href="./logout">logout</a>
+    {% for message in get_flashed_messages() %}
+    <div class="alert">{{ message }} </div>
+    {% endfor %}
 {% endblock %}

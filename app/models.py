@@ -5,12 +5,12 @@ from flask_login import UserMixin
 from flask_moment import datetime
 
 class User(db.Model, UserMixin):
-    __tablename__ = 'Users'
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
-    posts = db.relationship('posts', backref='author', lazy='dynamic')
-    comments = db.relationship('comments', backref='author', lazy='dynamic')
+    posts = db.relationship('Post', backref='author', lazy='dynamic')
+    comments = db.relationship('Comment', backref='author', lazy='dynamic')
 
     @property
     def password(self):
@@ -36,8 +36,8 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow())
-    author_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
-    comments = db.relationship('Comment', backref='posts', lazy='dynamic')
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
     @staticmethod
     def on_changed_body(target, value, oldvalue, initiator):
@@ -56,7 +56,7 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow())
-    author_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
     
     @staticmethod
