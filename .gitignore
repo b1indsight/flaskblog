@@ -4,5 +4,5 @@ venv/
 -
 .bashrc
 tmp/
-sqltest
-data-dev
+sqltest.py
+data-dev.sqlite
