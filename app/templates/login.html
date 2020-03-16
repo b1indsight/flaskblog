@@ -2,15 +2,17 @@
 
 {%block content %}
 <h3>Login</h3>
-<form method="post">
-    Username<br>
-    <input type="text" name="username" required><br><br>
-    Password<br>
-    <input type="password" name="password" required><br><br>
-    <input class="btn" type="submit" name="submit" value="Submit">
-</form>
+<div class="container">
+    <form method="post">
+        Username<br>
+        <input type="text" name="username" required><br><br>
+        Password<br>
+        <input type="password" name="password" required><br><br>
+        <input class="btn" type="submit" name="submit" value="Submit">
+    </form>
+</div>
     <a href="./logout">logout</a>
-    {% for message in get_flashed_messages() %}
-    <div class="alert">{{ message }} </div>
+    {% for message in get_flashed_messages(with_categories=True) %}
+        <div class="alert alert-{{ message[0] }}">{{ message[1] }} </div>
     {% endfor %}
 {% endblock %}

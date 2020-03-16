@@ -18,6 +18,7 @@ def index():
 
     return render_template("index.html", form=form, posts=posts)
 
+
 @main.route('/login', methods=['GET', 'POST'])
 def login():
 	if request.method == 'post':
@@ -27,7 +28,7 @@ def login():
 		check = check(username, password)
 
 		if check:
-			flash("success")
+			flash("success", "success")
 			return redirect(url_for('login')) 
 		else:
 			return redirect(url_for('index'))

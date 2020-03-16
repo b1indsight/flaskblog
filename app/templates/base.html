@@ -1,14 +1,26 @@
 <html>
     <head>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/materialize.min.css' ) }}"  media="screen,projection"/>
         {% block head %}
             <meta charset="utf-8">
-            <title>{% block title %}FLASK BLOG{% endblock %}</title>
+            <nav>
+                <div class="nav-wrapper">
+                  <a href="#" class="brand-logo">FLASK BLOG</a>
+                  <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="{{url_for('main.index')}}">HOME</a></li>
+                    {% if current_user.is_auththenticated %}
+                        <li><a href="{{ url_for('main.logout') }}">logout</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('main.login') }}">login</a></li>
+                    {% endif %}
+                  </ul>
+                </div>
+            </nav>
         {% endblock %}
     </head> 
 <body>
-<nav>
-    <ui><li><a href="{{url_for('main.index')}}">HOME</a></li></ui>
-</nav>
+
 <main>
     {% block content %}{% endblock %}
 </main>
@@ -17,5 +29,6 @@
     {% endblock %}
 </footer>
     {% block script %}{% endblock %}
+    <script src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
 </body>
 </html>
