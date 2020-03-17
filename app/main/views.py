@@ -1,7 +1,7 @@
 from flask import request, render_template, session, redirect, url_for, flash
 from . import main
 from ..models import User, Post
-from flask_login import LoginManager, login_required, logout_user, current_user
+from flask_login import LoginManager, login_required, logout_user, current_user, login_user
 # from flask_mail import 
 from .forms import PostForm
 # from Bootstrap-Flask import
@@ -28,10 +28,11 @@ def login():
 		check = check(username, password)
 
 		if check:
+            login_user(User.query.first())
 			flash("success", "success")
-			return redirect(url_for('login')) 
+			return redirect(url_for('index')) 
 		else:
-			return redirect(url_for('index'))
+			return redirect(url_for('login'))
 		
 	else:
 		return render_template("login.html") 	
@@ -49,4 +50,10 @@ def logout():
     logout_user()
     flash('logout success')
     return redirect(url_for('.index'))
+
+
+@main.route('/post/<int:post_id>')
+def show_post(post_id):
+    post = Post.query.get_or_404(post_id) 
+    return render_template('post.html', post=post) 
 

@@ -1,8 +1,8 @@
 import os
 import click
 from app import create_app
-from app.models import User
-from app import db
+from app.models import User, Post
+from app import db,fake
 
 COV = None
 if os.environ.get('TEST_COVERAGE'):
@@ -62,6 +62,24 @@ def test(coverage, test_names):
         print("get the coverage report")
         COV.erase()
 
-"""
+@app.cli.command()
+@click.option('--count', default=20, help='count of fake posts, default is 20')
+def createFakePosts(count):
+    from faker import Faker
 
-"""
+    db.drop_all()
+    db.create_all()
+
+    click.echo('Working...')
+
+    for i in range(count): 
+        post = Post( 
+            id=fake.random_int(min=0, max=9999, step=1), 
+            title=fake.lexify(text='???????', 
+                              letters='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'),
+            body=fake.sentence(), 
+            timestamp=fake.date_time_this_year()) 
+        db.session.add(post)
+
+    db.session.commit()
+    click.echo('Create %d fake posts.' %count)

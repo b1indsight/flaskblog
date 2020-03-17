@@ -3,6 +3,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from flask_login import UserMixin
 from flask_moment import datetime
+import bleach
+from markdown import markdown
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -23,10 +25,9 @@ class User(db.Model, UserMixin):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
     
-    @password.setter
     def __init__(self, username, password):
         self.username = username
-        password(self, password)
+        password = password
         
     def __repr__(self):
         return '<User %r>' % self
@@ -34,6 +35,7 @@ class User(db.Model, UserMixin):
 class Post(db.Model):
     __tablename__ = 'posts'
     id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.Text)
     body = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow())
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))

@@ -5,12 +5,14 @@ from flask_login import LoginManager
 from flask_pagedown import PageDown
 from flask_moment import Moment
 from flask_bootstrap import Bootstrap
+from faker import Faker
 
 db = SQLAlchemy()
 login_manager = LoginManager()
 pagedown = PageDown()
 moment = Moment()
 bootstrap = Bootstrap()
+fake = Faker()
 
 @login_manager.user_loader
 def load_user(user_id):
