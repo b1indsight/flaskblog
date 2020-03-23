@@ -21,21 +21,21 @@ def index():
 
 @main.route('/login', methods=['GET', 'POST'])
 def login():
-	if request.method == 'post':
-		username = request.form['username'] 
-		password = request.form['password'] 
-	
-		check = check(username, password)
+    if request.method == 'post':
+        username = request.form['username'] 
+        password = request.form['password'] 
+    
+        check = check(username, password)
 
-		if check:
-            login_user(User.query.first())
-			flash("success", "success")
-			return redirect(url_for('index')) 
-		else:
-			return redirect(url_for('login'))
-		
-	else:
-		return render_template("login.html") 	
+        if check:
+            login_user(User.qurey.first())
+            flash("success", "success")
+            return redirect(url_for('index')) 
+        else:
+            return redirect(url_for('login'))
+        
+    else:
+        return render_template("login.html")     
 
 def check(username, password):
     user = User.query.first()
